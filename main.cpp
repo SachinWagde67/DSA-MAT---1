@@ -1,4 +1,11 @@
 #include <iostream>
+#include <unistd.h>
+#define CLRSCR "\e[2J\e[H";
+#define RED "\x1b[31m";
+#define GREEN "\x1b[32m";
+#define BLUE "\x1b[34m";
+#define MAGENTA "\x1b[35m";
+#define WHITE "\x1b[37m";
 using namespace std;
 
 struct Player
@@ -12,18 +19,23 @@ int PlayerInput(char board[][10], Player active)
 	int choice;
 	do
 	{
+		if(active.id == 'R')	cout<<RED;
+		if(active.id == 'B')	cout<<BLUE;
+		
 		cout<<active.name << "'s Turn "<<endl;
 		cout<<"Enter column number between 1 and 7: ";
 		cin>>choice;
+		cout<<WHITE;
 
-		while(board[1][choice] == 'R' || board[1][choice] == 'Y')
+		while(board[1][choice] == 'R' || board[1][choice] == 'B')
 		{
 			cout<<"Row is full, please enter a new row: ";
 			cin>>choice;
 		}
+		cout<<CLRSCR;
 	}while(choice < 1 || choice > 7);
 
-return choice;
+	return choice;
 }
 
 void CheckTurn(char board[][10], Player active, int choice)
@@ -32,7 +44,7 @@ void CheckTurn(char board[][10], Player active, int choice)
 
 	while(turn != 1)
 	{
-		if(board[length][choice] != 'R' && board[length][choice] != 'Y')
+		if(board[length][choice] != 'R' && board[length][choice] != 'B')
 		{
 			board[length][choice] = active.id;
 			turn = 1;
@@ -51,14 +63,18 @@ void PrintBoard(char board[][10])
 	{
 		for(int j = 1; j <= cols; j++)
 		{
-			if(board[i][j] != 'R' && board[i][j] != 'Y')
+			if(board[i][j] != 'R' && board[i][j] != 'B')
 			{
 				board[i][j] = '_';
 			}
+			cout<<MAGENTA;
 			cout<<"|";
+			cout<<WHITE;
 			cout<<board[i][j];		
 		}
+		cout<<MAGENTA;
 		cout<<"|"<<endl;
+		cout<<WHITE;
 	}
 	cout<<endl;
 }
@@ -121,8 +137,23 @@ int FullBoard(char board[][10])
 
 void Winner(Player active)
 {
+	if(active.id == 'R')	cout<<RED;
+	if(active.id == 'B')	cout<<BLUE;
+
 	cout<<active.name<<" Connected Four!"<<endl;
 	cout<<active.name<<" is the WINNER!"<<endl;
+	cout<<WHITE;
+}
+
+void Rules()
+{
+	cout<<GREEN;
+	cout<<"RULES:"<<endl<<endl;
+	cout<<"1) Two-player (RED(R) and BLUE(B)) game."<<endl;
+	cout<<"2) Board size is 6 X 7 (6 ROWS & 7 COLUMNS)."<<endl;
+	cout<<"3) A player wins if he/she is able to connect 4 dots horizontally, vertically andf diagonally."<<endl;
+	cout<<"4)When the board is full, Game will draw."<<endl<<endl<<endl;
+	cout<<WHITE;
 }
 
 int main()
@@ -132,19 +163,30 @@ int main()
 	int trueWidth = 7; 
 	int trueLength = 6; 
 	int choice, win, full, again;
+	cout<<CLRSCR;
+	cout<<"WELCOME TO THE GAME! CONNECT 4!"<<endl<<endl;
+	srand(time(NULL));
+	sleep(3);
 
-	cout<<"Let's Play Connect 4"<<endl<<endl;
+	Rules();
+	sleep(5);
+	cout<<CLRSCR;
 
+	cout<<RED;
 	cout<<"Player One(RED): "<<endl;
 	cout<<"Please Enter Your Name: ";
 	cin>>playerOne.name;
 	playerOne.id = 'R';
+	cout<<WHITE;
 	cout<<endl;
 
-	cout<<"Player Two(Yellow): "<<endl;
+	cout<<BLUE;
+	cout<<"Player Two(Blue): "<<endl;
 	cout<<"Please Enter Your Name: ";
 	cin>>playerTwo.name;
-	playerTwo.id = 'Y';
+	playerTwo.id = 'B';
+	cout<<WHITE;
+	cout<<CLRSCR;
 	cout<<endl;
 
 	full = 0;
