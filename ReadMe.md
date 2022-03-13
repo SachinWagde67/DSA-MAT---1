@@ -7,3 +7,9 @@ It is a two-player connection board game, in which the players choose a color an
 - Used struct for the players.
 - Used #define preprocessor directives for defining text colors.
 - Used array to create the board.
+
+
+![](Images/1.png)
+![](Images/2.png)
+![](Images/3.png)
+![](Images/4.png)
